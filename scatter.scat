@@ -1,0 +1,22 @@
+_FLASH 0x00000 0x10000 {
+    _BOOT 0x00000 {
+        *.o (RESET, +First)
+        *armlib* (+RO)             ; all ARM-supplied C library functions
+        .ANY (+RO)
+    }
+    _USER ImageLimit(_BOOT) {         ; /**< FIXED ALLOCATION */
+        *.o (.setting, +First)
+        *.o (.func_ptx)
+        *.o (.func_neg)
+        *.o (.func_reneg)
+        *.o (.func_calib)
+        *.o (.func_pp)
+        
+    }
+    _RAM 0x20000000 UNINIT {       ; RW data
+        .ANY (+RW +ZI)
+    }
+
+    STACK 0x20001000 EMPTY -512 {  ; /**< FIXED ALLOCATION */
+    }
+}
